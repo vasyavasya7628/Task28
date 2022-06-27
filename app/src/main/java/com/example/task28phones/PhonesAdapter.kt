@@ -44,7 +44,7 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         } catch (e: java.lang.Exception) {
             Toast.makeText(
                 context,
-                "Unable to call at this time", Toast.LENGTH_SHORT
+                e.toString(), Toast.LENGTH_SHORT
             ).show()
         }
     }
