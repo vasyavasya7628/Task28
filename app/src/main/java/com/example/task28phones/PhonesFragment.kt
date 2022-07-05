@@ -1,6 +1,6 @@
 package com.example.task28phones
 
-import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +14,8 @@ import com.example.task28phones.data.JSON_PHONES
 import com.example.task28phones.databinding.FragmentPhonesBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+
+private const val EMPTY_STRING = ""
 
 class PhonesFragment : Fragment() {
     private var _binding: FragmentPhonesBinding? = null
@@ -48,7 +50,8 @@ class PhonesFragment : Fragment() {
     }
 
     private fun saveFilter(filter: String) {
-        val sharedPrefWrite = binding.root.context.getSharedPreferences.edit{}
+        val sharedPrefWrite =
+            binding.root.context.getSharedPreferences(EMPTY_STRING, MODE_PRIVATE) ?: return
         with(sharedPrefWrite.edit()) {
             putString(getString(R.string.string_preference_file_key), filter)
             apply()
