@@ -10,7 +10,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.task28phones.data.JSONPHONES
+import com.example.task28phones.data.JSON_PHONES
 import com.example.task28phones.databinding.FragmentPhonesBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -20,9 +20,7 @@ class PhonesFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var textFilter: EditText
-    private val phonesAdapter by lazy {
-        PhonesListAdapter()
-    }
+    private val phonesAdapter = PhonesAdapter()
     private lateinit var tempList: List<DataPhones>
 
     override fun onCreateView(
@@ -50,7 +48,7 @@ class PhonesFragment : Fragment() {
     }
 
     private fun saveFilter(filter: String) {
-        val sharedPrefWrite = this.activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPrefWrite = binding.root.context.getSharedPreferences.edit{}
         with(sharedPrefWrite.edit()) {
             putString(getString(R.string.string_preference_file_key), filter)
             apply()
@@ -64,10 +62,10 @@ class PhonesFragment : Fragment() {
     }
 
     private fun setFilterListener() {
-        textFilter.addTextChangedListener {
-            val filter = it.toString()
-            val newList: List<DataPhones> = tempList.filter { i ->
-                i.phone.contains(filter) || i.name.contains(filter)
+        textFilter.addTextChangedListener { text ->
+            val filter = text.toString()
+            val newList: List<DataPhones> = tempList.filter { list ->
+                list.phone.contains(filter) || list.name.contains(filter)
             }
             saveFilter(filter)
             phonesAdapter.submitList(newList)
@@ -79,5 +77,5 @@ class PhonesFragment : Fragment() {
         _binding = null
     }
 
-    private fun getPhonesJson() = JSONPHONES
+    private fun getPhonesJson() = JSON_PHONES
 }

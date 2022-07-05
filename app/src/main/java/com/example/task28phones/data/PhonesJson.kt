@@ -1,6 +1,6 @@
 package com.example.task28phones.data
 
-const val JSONPHONES = """
+const val JSON_PHONES = """
     [
   {
     "name": "(Приёмная)",

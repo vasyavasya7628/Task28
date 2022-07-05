@@ -3,8 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidProjects/Task28Phones/app/src/main/res/layout/fragment_phones.xml" value="0.287962962962963" />
-        <entry key="..\:/AndroidProjects/Task28Phones/app/src/main/res/layout/item_phones.xml" value="0.287962962962963" />
+        <entry key="..\:/AndroidProjects/Task28/app/src/main/res/layout/activity_main.xml" value="0.35104166666666664" />
+        <entry key="..\:/AndroidProjects/Task28/app/src/main/res/layout/fragment_phones.xml" value="0.35104166666666664" />
       </map>
     </option>
   </component>
