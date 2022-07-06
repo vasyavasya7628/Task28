@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.task28phones.data.JSON_PHONES
 import com.example.task28phones.databinding.FragmentPhonesBinding
 import com.google.gson.Gson
@@ -20,8 +18,6 @@ private const val EMPTY_STRING = ""
 class PhonesFragment : Fragment() {
     private var _binding: FragmentPhonesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var textFilter: EditText
     private val phonesAdapter = PhonesAdapter()
     private lateinit var tempList: List<DataPhones>
 
@@ -42,11 +38,9 @@ class PhonesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        recyclerView = binding.recyclerViewPhones
-        textFilter = binding.textFilter
-        recyclerView.layoutManager =
+        binding.recyclerViewPhones.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = phonesAdapter
+        binding.recyclerViewPhones.adapter = phonesAdapter
     }
 
     private fun saveFilter(filter: String) {
@@ -65,7 +59,7 @@ class PhonesFragment : Fragment() {
     }
 
     private fun setFilterListener() {
-        textFilter.addTextChangedListener { text ->
+        binding.textFilter.addTextChangedListener { text ->
             val filter = text.toString()
             val newList: List<DataPhones> = tempList.filter { list ->
                 list.phone.contains(filter) || list.name.contains(filter)
