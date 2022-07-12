@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.task28phones.PhonesAdapter
 import com.example.task28phones.R
 import com.example.task28phones.data.DataPhones
 import com.example.task28phones.data.JSON_PHONES
