@@ -1,7 +1,8 @@
-package com.example.task28phones
+package com.example.task28phones.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.task28phones.R
 import com.example.task28phones.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

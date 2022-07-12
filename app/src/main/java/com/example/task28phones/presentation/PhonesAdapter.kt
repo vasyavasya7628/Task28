@@ -1,16 +1,13 @@
 package com.example.task28phones
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.task28phones.data.DataPhones
 
 class PhonesAdapter : ListAdapter<DataPhones, PhonesViewHolder>(DiffCallback()) {
 

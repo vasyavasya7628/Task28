@@ -1,4 +1,4 @@
-package com.example.task28phones
+package com.example.task28phones.data
 
 import com.google.gson.annotations.SerializedName
 

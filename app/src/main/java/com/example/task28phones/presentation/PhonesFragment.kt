@@ -1,4 +1,4 @@
-package com.example.task28phones
+package com.example.task28phones.presentation
 
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.task28phones.PhonesAdapter
+import com.example.task28phones.R
+import com.example.task28phones.data.DataPhones
 import com.example.task28phones.data.JSON_PHONES
+import com.example.task28phones.data.PhonesStore
 import com.example.task28phones.databinding.FragmentPhonesBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -19,7 +23,6 @@ class PhonesFragment : Fragment() {
     private var _binding: FragmentPhonesBinding? = null
     private val binding get() = _binding!!
     private val phonesAdapter = PhonesAdapter()
-    private lateinit var tempList: List<DataPhones>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +37,7 @@ class PhonesFragment : Fragment() {
         initRecyclerView()
         phonesParse()
         setFilterListener()
-        phonesAdapter.submitList(tempList)
+        phonesAdapter.submitList(PhonesStore.list)
     }
 
     private fun initRecyclerView() {
@@ -55,16 +58,17 @@ class PhonesFragment : Fragment() {
     private fun phonesParse() {
         val listPhonesType = object : TypeToken<List<DataPhones>>() {}.type
         val phones: List<DataPhones> = Gson().fromJson(getPhonesJson(), listPhonesType)
-        tempList = phones
+        PhonesStore.list = phones
     }
 
     private fun setFilterListener() {
         binding.textFilter.addTextChangedListener { text ->
             val filter = text.toString()
-            val newList: List<DataPhones> = tempList.filter { list ->
+
+            @Suppress("UNCHECKED_CAST")
+            val newList: List<DataPhones> = ((PhonesStore.list?.filter { list ->
                 list.phone.contains(filter) || list.name.contains(filter)
-            }
-            saveFilter(filter)
+            } ?: saveFilter(filter)) as List<DataPhones>)
             phonesAdapter.submitList(newList)
         }
     }
