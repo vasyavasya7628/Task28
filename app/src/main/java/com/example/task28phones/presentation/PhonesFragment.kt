@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task28phones.R
 import com.example.task28phones.data.DataPhones
@@ -44,7 +43,6 @@ class PhonesFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        val didider = DividerItemDecoration(activity, DividerItemDecoration.HORIZONTAL)
         binding.recyclerViewPhones.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerViewPhones.adapter = phonesAdapter
