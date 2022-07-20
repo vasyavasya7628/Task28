@@ -1,21 +1,25 @@
 package com.example.task28phones.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.task28phones.R
 import com.example.task28phones.data.DataPhones
+import com.example.task28phones.databinding.ItemPhonesBinding
 
 class PhonesAdapter(private val cellClickListener: (String) -> Unit) :
     ListAdapter<DataPhones, PhonesViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhonesViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return PhonesViewHolder(inflater.inflate(R.layout.item_phones, parent, false))
+        return PhonesViewHolder(
+            ItemPhonesBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: PhonesViewHolder, position: Int) {
@@ -23,13 +27,14 @@ class PhonesAdapter(private val cellClickListener: (String) -> Unit) :
     }
 }
 
-class PhonesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val phonesView: TextView = itemView.findViewById(R.id.phones)
+class PhonesViewHolder(private val binding: ItemPhonesBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: DataPhones, cellClickListener: (String) -> Unit) {
         val context = itemView.context
-        phonesView.text = context.getString(R.string.displayItem, item.name, item.phone, item.type)
-        phonesView.setOnClickListener {
+        binding.phones.text =
+            context.getString(R.string.displayItem, item.name, item.phone, item.type)
+        binding.phones.setOnClickListener {
             cellClickListener(item.phone)
         }
     }

@@ -2,7 +2,6 @@
     <string name="app_name">task 16</string>
     <string name="emptyText">Поиск</string>
     <string name="displayItem">name:%s, phone:%s, type:%s</string>
-    <string name="string.preference_file_key">999</string>
     <string name="defaultValue">DefaultReadValue</string>
     <string name="action_settings">Настройки</string>
 </resources>

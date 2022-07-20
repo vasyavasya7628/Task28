@@ -2,6 +2,7 @@ package com.example.task28phones.presentation
 
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +12,6 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.task28phones.R
 import com.example.task28phones.data.DataPhones
 import com.example.task28phones.data.JSON_PHONES
 import com.example.task28phones.data.PhonesStore
@@ -20,15 +20,18 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 private const val EMPTY_STRING = ""
+private const val PREFERENCE_FILE_KEY = 999
+@Suppress("UNCHECKED_CAST")
 
 class PhonesFragment : Fragment() {
     private var _binding: FragmentPhonesBinding? = null
     private val binding get() = _binding!!
     private val phonesAdapter = PhonesAdapter { makeCall(it) }
+    private lateinit var sharedPrefWrite: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPhonesBinding.inflate(inflater, container, false)
         return binding.root
@@ -38,7 +41,11 @@ class PhonesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         phonesParse()
-        listenFilter()
+        saveFilterState()
+        addDataToAdapter()
+    }
+
+    private fun addDataToAdapter() {
         phonesAdapter.submitList(PhonesStore.list)
     }
 
@@ -49,10 +56,10 @@ class PhonesFragment : Fragment() {
     }
 
     private fun saveFilter(filter: String) {
-        val sharedPrefWrite =
-            binding.root.context.getSharedPreferences(EMPTY_STRING, MODE_PRIVATE) ?: return
+        sharedPrefWrite =
+            requireContext().getSharedPreferences(EMPTY_STRING, MODE_PRIVATE) ?: return
         with(sharedPrefWrite.edit()) {
-            putString(getString(R.string.string_preference_file_key), filter)
+            putString(getString(PREFERENCE_FILE_KEY), filter)
             apply()
         }
     }
@@ -76,12 +83,14 @@ class PhonesFragment : Fragment() {
         PhonesStore.list = phones
     }
 
-    private fun listenFilter() {
-        binding.textFilter.addTextChangedListener { text ->
-            val filter = text.toString()
-            val newList: List<DataPhones> = ((PhonesStore.list?.filter { list ->
-                list.phone.contains(filter) || list.name.contains(filter)
-            } ?: saveFilter(filter)) as List<DataPhones>)
+    private fun saveFilterState() {
+        binding.textFilter.addTextChangedListener { searchText ->
+            val filter = PhonesStore.list?.filter { list ->
+                list.phone.contains(searchText.toString()) || list.name.contains(searchText.toString())
+            }
+
+            val newList: List<DataPhones> =
+                (filter ?: saveFilter(searchText.toString())) as List<DataPhones>
             phonesAdapter.submitList(newList)
         }
     }

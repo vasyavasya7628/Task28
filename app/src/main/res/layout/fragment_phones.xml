@@ -9,27 +9,21 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarFilter"
-        android:layout_width="414dp"
-        android:layout_height="52dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:background="?attr/colorPrimary"
-        android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewPhones"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        >
 
         <EditText
             android:id="@+id/textFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:ems="10"
             android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:text="@string/emptyText"
+            tools:text="Поиск"
             android:textColor="@color/white" />
     </androidx.appcompat.widget.Toolbar>
 
@@ -40,6 +34,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarFilter" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
