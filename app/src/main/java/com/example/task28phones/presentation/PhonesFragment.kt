@@ -1,8 +1,6 @@
 package com.example.task28phones.presentation
 
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,20 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.task28phones.data.DataPhones
 import com.example.task28phones.data.JSON_PHONES
-import com.example.task28phones.data.PhonesStore
 import com.example.task28phones.databinding.FragmentPhonesBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
-private const val EMPTY_STRING = ""
-private const val PREFERENCE_FILE_KEY = 999
-@Suppress("UNCHECKED_CAST")
 
 class PhonesFragment : Fragment() {
     private var _binding: FragmentPhonesBinding? = null
     private val binding get() = _binding!!
     private val phonesAdapter = PhonesAdapter { makeCall(it) }
-    private lateinit var sharedPrefWrite: SharedPreferences
+    private lateinit var phonesList: List<DataPhones>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,22 +39,13 @@ class PhonesFragment : Fragment() {
     }
 
     private fun addDataToAdapter() {
-        phonesAdapter.submitList(PhonesStore.list)
+        phonesAdapter.submitList(phonesList)
     }
 
     private fun initRecyclerView() {
         binding.recyclerViewPhones.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding.recyclerViewPhones.adapter = phonesAdapter
-    }
-
-    private fun saveFilter(filter: String) {
-        sharedPrefWrite =
-            requireContext().getSharedPreferences(EMPTY_STRING, MODE_PRIVATE) ?: return
-        with(sharedPrefWrite.edit()) {
-            putString(getString(PREFERENCE_FILE_KEY), filter)
-            apply()
-        }
     }
 
     private fun makeCall(phoneNumber: String) {
@@ -80,18 +64,15 @@ class PhonesFragment : Fragment() {
     private fun phonesParse() {
         val listPhonesType = object : TypeToken<List<DataPhones>>() {}.type
         val phones: List<DataPhones> = Gson().fromJson(getPhonesJson(), listPhonesType)
-        PhonesStore.list = phones
+        phonesList = phones
     }
 
     private fun saveFilterState() {
         binding.textFilter.addTextChangedListener { searchText ->
-            val filter = PhonesStore.list?.filter { list ->
+            val filter = phonesList.filter { list ->
                 list.phone.contains(searchText.toString()) || list.name.contains(searchText.toString())
             }
-
-            val newList: List<DataPhones> =
-                (filter ?: saveFilter(searchText.toString())) as List<DataPhones>
-            phonesAdapter.submitList(newList)
+            phonesAdapter.submitList(filter)
         }
     }
 
