@@ -33,14 +33,11 @@ class PhonesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        phonesParse()
-        saveFilterState()
-        addDataToAdapter()
+        readPhones()
+        searchText()
     }
 
-    private fun addDataToAdapter() {
-        phonesAdapter.submitList(phonesList)
-    }
+
 
     private fun initRecyclerView() {
         binding.recyclerViewPhones.layoutManager =
@@ -61,13 +58,14 @@ class PhonesFragment : Fragment() {
         }
     }
 
-    private fun phonesParse() {
+    private fun readPhones() {
         val listPhonesType = object : TypeToken<List<DataPhones>>() {}.type
         val phones: List<DataPhones> = Gson().fromJson(getPhonesJson(), listPhonesType)
         phonesList = phones
+        phonesAdapter.submitList(phonesList)
     }
 
-    private fun saveFilterState() {
+    private fun searchText() {
         binding.textFilter.addTextChangedListener { searchText ->
             val filter = phonesList.filter { list ->
                 list.phone.contains(searchText.toString()) || list.name.contains(searchText.toString())
